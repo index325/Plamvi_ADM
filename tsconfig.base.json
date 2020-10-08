@@ -1,0 +1,29 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "baseUrl": "./src",
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "strict": true,
+    "paths": {
+      "@Components/*": ["components/*"],
+      "@Api/*": ["api/*"],
+      "@Utils": ["utils/index.ts"],
+      "@Assets": ["assets/index.ts"],
+      "@App": ["App.tsx"]
+    },
+    "strictPropertyInitialization": false,
+    "allowJs": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react"
+  }
+}
