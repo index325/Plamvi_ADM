@@ -36,6 +36,20 @@ export default function Home() {
             </Paper>
           </Box>
         </Grid>
+        <Grid item xs={10} sm={10} md={10} lg={5}>
+          <Box m={1}>
+            <Paper className={classes.paper}>
+              <SimpleChart />
+            </Paper>
+          </Box>
+        </Grid>
+        <Grid item xs={10} sm={10} md={10} lg={5}>
+          <Box m={1}>
+            <Paper className={classes.paper}>
+              <SimpleChart />
+            </Paper>
+          </Box>
+        </Grid>
 
         <Grid item xs={10} sm={10} md={10} lg={10} xl={10}>
           <Typography variant="h2" className={classes.text}>

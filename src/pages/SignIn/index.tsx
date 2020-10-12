@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import { Grid, Typography, Box, Link } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -78,8 +78,8 @@ export default function SignIn() {
                 </Box>
                 <form className={classes.form} onSubmit={handleSubmit}>
                   <TextField
-                    onChange={(e: any, value: React.SetStateAction<string>) => {
-                      setUsername(e.target.value);
+                    onChange={(event: any) => {
+                      setUsername(event.target.value);
                     }}
                     className={classes.input}
                     name="username"
@@ -89,8 +89,8 @@ export default function SignIn() {
                     label="USUÁRIO"
                   />
                   <PassField
-                    onChange={(e: any, value: React.SetStateAction<string>) => {
-                      setPassword(e.target.value);
+                    onChange={(event: any) => {
+                      setPassword(event.target.value);
                     }}
                     className={classes.input}
                     label="SENHA"

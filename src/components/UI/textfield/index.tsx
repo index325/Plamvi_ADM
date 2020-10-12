@@ -1,7 +1,7 @@
 import React from "react";
 
 import { withStyles } from "@material-ui/core/styles";
-import { TextField } from "@material-ui/core";
+import { TextField, TextFieldProps } from "@material-ui/core";
 
 const TF = withStyles((theme) => ({
   root: {
@@ -11,12 +11,12 @@ const TF = withStyles((theme) => ({
   },
 }))(TextField);
 
-function TextF({ ...props }) {
+const TextF: React.FC<TextFieldProps> = ({ ...props }) => {
   return (
     <>
       <TF {...props} />
     </>
   );
-}
+};
 
 export default TextF;

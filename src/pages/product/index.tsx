@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { Grid, Box } from "@material-ui/core";
+import { useSelector } from "react-redux";
+import { Grid, Box, CircularProgress, Backdrop } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { useHistory } from "react-router-dom";
 
 import { Button, ProductList, Paper } from "@Components/UI";
 
-import Texture from "../../assets/img/wave_texture.svg"; // Import using relative path
+import { IState } from "_redux";
+import { IAuthState } from "_redux/modules/auth/types";
+import api from "../../service";
+import { IProduct } from "interfaces";
 
 const useStyles = makeStyles((theme) => ({
   form: {
@@ -29,42 +32,46 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: theme.spacing(2),
     marginTop: theme.spacing(3),
   },
-  texture: {
-    backgroundImage: `url(${Texture})`,
-    backgroundRepeat: "no-repeat",
-    backgroundPosition: "center center",
-    backgroundSize: "cover",
-    backgroundAttachment: "fixed",
-    height: "100%",
-  },
   logo: {
     width: "80%",
+  },
+  main: {
+    paddingBottom: theme.spacing(2),
+  },
+  backdrop: {
+    zIndex: theme.zIndex.drawer + 1,
+    color: "#fff",
   },
 }));
 
 export default function ProductsPage() {
   const classes = useStyles();
-  const [apiData, setApiData] = useState([{}]);
-  const [loading] = useState("");
+  const [products, setProducts] = useState<IProduct[]>([{}] as IProduct[]);
+  const [loading, setLoading] = useState(true);
+
+  const { token } = useSelector<IState, IAuthState>((state) => state.auth);
 
   useEffect(() => {
     async function getProducts() {
-      // let data = await getAllProducts();
-      // setApiData(data);
-      const listOfProducts = () => {
-        const listItems = apiData.map((data, index) => (
-          <Box key={index}>
-            {/* {data.price} */}
-            {/* <ProductList /> */}
-          </Box>
-        ));
-        return <Box my={1}>{listItems}</Box>;
-      };
+      if (token) {
+        const response = await api.get<IProduct[]>(
+          `/customers/list_my_products`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Accept: "*/*",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
 
-      listOfProducts();
+        setProducts(response.data);
+        setLoading(false);
+      }
     }
+
     getProducts();
-  }, [loading, apiData]);
+  }, [token]);
 
   const history = useHistory();
 
@@ -75,6 +82,7 @@ export default function ProductsPage() {
         alignItems="center"
         justify="center"
         style={{ textAlign: "center" }}
+        className={classes.main}
       >
         <Grid item xs={12} sm={12} md={12} lg={10}>
           <Grid style={{ textAlign: "right" }}>
@@ -84,17 +92,23 @@ export default function ProductsPage() {
               className={classes.button}
               color="primary"
               label="Cadastrar novo"
-              onClick={() => history.push("/app/products/create")}
+              onClick={() => history.push("/products/create")}
             />
           </Grid>
 
           <Paper>
             <Box p={3}>
-              {apiData.map((data, index) => (
-                <Box display="flex" key={index}>
-                  {/* <ProductList data={data} /> */}
-                </Box>
-              ))}
+              {!loading ? (
+                products.map((product, index) => (
+                  <Box display="flex" key={index}>
+                    <ProductList data={product} />
+                  </Box>
+                ))
+              ) : (
+                <Backdrop className={classes.backdrop} open={loading}>
+                  <CircularProgress color="inherit" />
+                </Backdrop>
+              )}
             </Box>
           </Paper>
         </Grid>

@@ -1,25 +1,14 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  useRouteMatch,
-} from "react-router-dom";
+import { BrowserRouter as Router } from "react-router-dom";
 
 import { ThemeProvider, makeStyles } from "@material-ui/core/styles";
-import { Provider, useSelector } from "react-redux";
+import { Provider } from "react-redux";
 import { light as ThemeLight } from "@Utils";
-import { Dialog, Layout } from "@Components/UI";
-import { LoginPage, Dashboard, ProductsPage, ProductCreatePage } from "./pages";
 import Texture from "./assets/img/wave_texture.svg"; // Import using relative path
 import store from "./_redux";
 import Routes from "./routes";
-
-interface IMessage {
-  message: string;
-  title: string;
-}
+import { SnackbarProvider } from "notistack";
 
 const useStyles = makeStyles((theme) => ({
   globalStyle: {
@@ -64,17 +53,19 @@ const App = () => {
   }, [appConstants.version]);
 
   return (
-    <Provider store={store}>
-      <ThemeProvider theme={ThemeLight}>
-        <AppContext.Provider value={appConstants}>
-          <div className={classes.globalStyle}>
-            <Router>
-              <Routes />
-            </Router>
-          </div>
-        </AppContext.Provider>
-      </ThemeProvider>
-    </Provider>
+    <SnackbarProvider maxSnack={3}>
+      <Provider store={store}>
+        <ThemeProvider theme={ThemeLight}>
+          <AppContext.Provider value={appConstants}>
+            <div className={classes.globalStyle}>
+              <Router>
+                <Routes />
+              </Router>
+            </div>
+          </AppContext.Provider>
+        </ThemeProvider>
+      </Provider>
+    </SnackbarProvider>
   );
 };
 

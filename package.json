@@ -16,6 +16,8 @@
     "@unicef/material-ui-currency-textfield": "^0.8.6",
     "axios": "^0.19.2",
     "babel-plugin-module-resolver": "^4.0.0",
+    "material-ui-dropzone": "^3.5.0",
+    "notistack": "^1.0.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-redux": "^7.2.0",
